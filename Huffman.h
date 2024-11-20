@@ -13,11 +13,13 @@ struct bits {
 	unsigned char b0:1;		//mais significativo
 };
 
-union byte {
+
+union HuffByte {
 	struct bits bi;
 	unsigned char info;
 };
-typedef union byte Byte;
+typedef union HuffByte TpByte;
+
 
 struct tree {
 	int simbolo, frequencia;
@@ -25,20 +27,23 @@ struct tree {
 };
 typedef struct tree Tree;
 
+
 struct floresta {
 	Tree *no;
 	struct floresta *prox;
 };
 typedef struct floresta Floresta;
 
+
 struct registro {
 	char palavra[TFC];
 	int frequencia;
-	int simbolo
+	int simbolo;
 	char codHuff[TFC];
 	struct registro *prox;
 };
 typedef struct registro TabReg;
+
 
 /*--------------------- Byte --------------------*/
 void exibirByte(TpByte *B) {
@@ -63,7 +68,7 @@ Tree *criaNo(int simbolo, int frequencia) {
 }
 
 void exibirTreeHorizontal(Tree *raiz) {
-	static int n = -1, i;
+	static int n = 5, i;
 	if(raiz != NULL) {
 		n++;
 		exibirTreeHorizontal(raiz->dir);
@@ -80,8 +85,7 @@ void exibirTreeHorizontal(Tree *raiz) {
 
 void exibirTreeVertical(Tree *raiz, int x, int y, int deslocamento) {
 	int novoXEsq, novoXDir, novoY;
-	if (raiz != NULL) 
-	{
+	if (raiz != NULL) {
 		// Posiciona o cursor e imprime o nó atual
 		gotoxy(x, y);
 		// Verifica se o nó é folha ou interno
@@ -102,9 +106,9 @@ void exibirTreeVertical(Tree *raiz, int x, int y, int deslocamento) {
 	}
 }
 
-void limparTree(Tree **Raiz) {
+void limparTree(Tree **Raiz){
 	Tree *aux;
-	if(*Raiz != NULL) {
+	if(*Raiz != NULL){
 		aux = *Raiz;
 		limparTree(&(*Raiz)->esq);
 		limparTree(&(*Raiz)->dir);
@@ -170,20 +174,21 @@ Tree *excluirMenorFloresta(Floresta **Flo) {
 }
 
 void exibirFloresta(Floresta *Flo) {
-	int i=3;
-	gotoxy(60, 1);
-	printf("//### Floresta ###//");
+	int i = 9;
+	gotoxy(97, i - 1);
+	printf("//--- Floresta ---//");
 	while (Flo != NULL) {
-		gotoxy(67, i);
+		gotoxy(104, i);
 		printf("%d", Flo->no->simbolo);
-		gotoxy(72, i);
+		gotoxy(109, i);
 		printf("%d", Flo->no->frequencia);
 		Flo = Flo->prox;
 		i++;
 	}
+	gotoxy(97,i);printf("//----------------//");
 }
 /*---------------------------------------------------*/
-
+                                        
 /*--------------------- Registro -------------------------*/
 TabReg *criarNoReg(char *palavra) {
 	TabReg *Reg = (TabReg*)malloc(sizeof(TabReg));
@@ -239,59 +244,70 @@ void ordenarRegistro(TabReg* *Reg) {
 	}
 }
 
-void exibirRegistro(TabRegistro *Reg, int *i){
-	gotoxy(1,1);
-	printf("//##################### Registro #######################//");
-	gotoxy(3, 3); printf("|Simbolo|");
-	gotoxy(14, 3); printf("|Palavra|");
-	gotoxy(26, 3); printf("|Frequencia|");
-	gotoxy(41, 3); printf("|Codigo-Huffman|");
-    while(Reg != NULL){
-		gotoxy(6, *i);   printf("%d", Reg->simbolo);
-		gotoxy(15, *i);  
-		if(Reg->palavra[0] != 32)
-			printf("%s", Reg->palavra);
+void exibirRegistro(TabReg *Reg) {
+	gotoxy(3,3);
+    printf("//##################### Registro #######################//\n");
+    printf("|  Simbolo  |   Palavra   | Frequencia | Codigo-Huffman |\n");
+    printf("---------------------------------------------------------\n");
+    char *palavraExibida;
+
+    while (Reg != NULL) 
+	{
+    	if(Reg->palavra[0] != 32)
+		{
+    		palavraExibida = Reg->palavra; // Palavra normal
+		}
 		else
-			printf("ESPACO");
-		gotoxy(30, *i);  
-		printf(" %d", Reg->frequencia);
-		gotoxy(43, *i);  printf("%s", Reg->codigoHuff);
+		{
+			palavraExibida = "ESPACO"; // ESPACO
+		}
+        printf("|    %3d    | %-11s |     %3d    | %-14s |\n",
+               Reg->simbolo,
+               palavraExibida,
+               Reg->frequencia,
+               Reg->codHuff);
         Reg = Reg->prox;
-		(*i)+=2;
     }
+    printf("---------------------------------------------------------\n");
 }
 
-void exibirRegistroBinario(FILE *ptr, int *i){
+void exibirRegistroBinario(FILE *ptr) {
 	TabReg Reg;
-	gotoxy(1,1);
-	printf("//--------------------- Registro -----------------------//");
-			  
-	gotoxy(3, 3); printf("|Simbolo|");
-	gotoxy(14, 3); printf("|Palavra|");
-	gotoxy(26, 3); printf("|Frequencia|");
-	gotoxy(41, 3); printf("|Codigo-Huffman|");
-	fread(&Reg, sizeof(TabReg), 1, ptr);
-    while(!feof(ptr)){
-		gotoxy(6, *i);   printf("%d", Reg.simbolo);
-		gotoxy(15, *i);  
-		if(Reg.palavra[0] != 32)
-			printf("%s", Reg.palavra);
-		else
-			printf("ESPACO");
-		gotoxy(30, *i);  
-		printf(" %d", Reg.frequencia);
-		gotoxy(43, *i);  printf("%s", Reg.codigoHuff);
-		(*i)+=2;
-		fread(&Reg, sizeof(TabReg), 1, ptr);
+	gotoxy(5,8);printf("//--------------------- Registro -----------------------//");
+    gotoxy(5,9);printf("|  Simbolo  |   Palavra   | Frequencia | Codigo-Huffman |");
+    gotoxy(5,10);printf("---------------------------------------------------------\n");
+    char *palavraExibida;
+    
+    int i = 11;
+
+    rewind(ptr); // Reposiciona o ponteiro do arquivo no início
+    
+    while (fread(&Reg, sizeof(TabReg), 1, ptr)) 
+	{
+        if (Reg.palavra[0] != 32) 
+		{
+            palavraExibida = Reg.palavra; // Palavra normal
+        } 
+		else 
+		{
+            palavraExibida = "ESPACO"; // ESPACO
+        }
+        gotoxy(5, i);printf("|    %3d    | %-11s |     %3d    | %-14s |\n",
+               Reg.simbolo,
+               palavraExibida,
+               Reg.frequencia,
+               Reg.codHuff);
+        i++;
     }
+    gotoxy(5, i);printf("---------------------------------------------------------\n");
 }
 
-void limparRegistro(TabReg* *Reg){
-    if (*Reg != NULL) {
-        TabReg *aux = *Reg;
-        *Reg = (*Reg)->prox;
-        free(aux);
-        limparRegistro(Reg);
-    }
+void limparRegistro(TabReg* *Reg) {
+	if (*Reg != NULL) {
+		TabReg *aux = *Reg;
+		*Reg = (*Reg)->prox;
+		free(aux);
+		limparRegistro(Reg);
+	}
 }
 /*--------------------------------------------------------*/
