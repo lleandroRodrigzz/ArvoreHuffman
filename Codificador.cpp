@@ -221,11 +221,23 @@ void preencherTelaAzul() {
 
 int main()
 {
+	FILE *Ptr = NULL;
+	Tree *Raiz = NULL;
+	Floresta *Flore = NULL;
+	TabReg *Reg = NULL;
+	char *frase;
+	
 	configurarConsole(120,30);
+	
+	remove("Frase.dat");
+	remove("TabReg.dat");
+	
+	frase = "viver e aprender crescer a cada dia tornando cada momento unico especial e uma chance de ser feliz";
 	
 	preencherTelaAzul();
 	textcolor(YELLOW);
 	
+	/*------------------------------------------ PRIMEIRA TELA ----------------------------------------------------------*/
 	Moldura(3,2,118,4,BLACK,BLUE); //Borda Titulo
 	textbackground(BLUE);
 	textcolor(YELLOW);
@@ -235,17 +247,6 @@ int main()
 	textbackground(BLUE);
 	textcolor(YELLOW);
 	gotoxy(55,5); printf("COMPACTADOR");
-	
-	FILE *Ptr = NULL;
-	Tree *Raiz = NULL;
-	Floresta *Flore = NULL;
-	TabReg *Reg = NULL;
-	char *frase;
-	
-	remove("Frase.dat");
-	remove("TabReg.dat");
-	
-	frase = "viver e aprender crescer a cada dia tornando cada momento unico especial e uma chance de ser feliz";
 	
 	lerFrase(&Reg, frase);
 	ordenarRegistro(&Reg);
@@ -263,8 +264,9 @@ int main()
 	exibirRegistroBinario(Ptr);	
 	fclose(Ptr);
 	getch();
+	/*-------------------------------------------------------------------------------------------------------------------*/
 	
-	
+	/*------------------------------------------ SEGUNDA TELA ----------------------------------------------------------*/
 	system("cls");
 	preencherTelaAzul();
 	Moldura(3,2,118,4,BLACK,BLUE); //Borda Titulo
@@ -281,7 +283,9 @@ int main()
 	printf("Arvore (Horizontal):\n\n");
 	exibirTreeHorizontal(Raiz);
 	getch();
-
+	/*-------------------------------------------------------------------------------------------------------------------*/
+	
+	/*------------------------------------------ TERCEIRA TELA ----------------------------------------------------------*/
 	system("cls");
 	Moldura(3,2,118,4,BLACK,BLUE); //Borda Titulo
 	textbackground(BLUE);
@@ -299,6 +303,7 @@ int main()
 	
 	gotoxy(4,15);printf("Tabela de Registros foi Gravada em 'TabReg.dat' com sucesso...");
 	gotoxy(4,17);printf("Frase Codificada foi Gravada em 'Frase.dat' com sucesso...");
+	/*-------------------------------------------------------------------------------------------------------------------*/
 	
 	limparTree(&Raiz);
 	limparRegistro(&Reg);
@@ -308,7 +313,7 @@ int main()
 	getch();
 	textbackground(BLACK);
 	system("cls");
-	gotoxy(120,30);
+	gotoxy(50,15);
 	return 0;
 }
 /*------------------------------------------------*/
