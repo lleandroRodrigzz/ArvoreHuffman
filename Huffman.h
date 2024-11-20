@@ -244,35 +244,9 @@ void ordenarRegistro(TabReg* *Reg) {
 	}
 }
 
-void exibirRegistro(TabReg *Reg) {
-	gotoxy(3,3);
-    printf("//##################### Registro #######################//\n");
-    printf("|  Simbolo  |   Palavra   | Frequencia | Codigo-Huffman |\n");
-    printf("---------------------------------------------------------\n");
-    char *palavraExibida;
-
-    while (Reg != NULL) 
-	{
-    	if(Reg->palavra[0] != 32)
-		{
-    		palavraExibida = Reg->palavra; // Palavra normal
-		}
-		else
-		{
-			palavraExibida = "ESPACO"; // ESPACO
-		}
-        printf("|    %3d    | %-11s |     %3d    | %-14s |\n",
-               Reg->simbolo,
-               palavraExibida,
-               Reg->frequencia,
-               Reg->codHuff);
-        Reg = Reg->prox;
-    }
-    printf("---------------------------------------------------------\n");
-}
-
-void exibirRegistroBinario(FILE *ptr) {
+void exibirRegistroBinario(FILE *Ptr) {
 	TabReg Reg;
+	gotoxy(3,3);
 	gotoxy(5,8);printf("//--------------------- Registro -----------------------//");
     gotoxy(5,9);printf("|  Simbolo  |   Palavra   | Frequencia | Codigo-Huffman |");
     gotoxy(5,10);printf("---------------------------------------------------------\n");
@@ -280,25 +254,32 @@ void exibirRegistroBinario(FILE *ptr) {
     
     int i = 11;
 
-    rewind(ptr); // Reposiciona o ponteiro do arquivo no início
-    
-    while (fread(&Reg, sizeof(TabReg), 1, ptr)) 
+    rewind(Ptr); // Reposiciona o ponteiro do arquivo no início
+    if(Ptr == NULL)
+    {
+    	printf("Arquivo Vazio");
+    	i++;
+	}
+	else
 	{
-        if (Reg.palavra[0] != 32) 
+		while (fread(&Reg, sizeof(TabReg), 1, Ptr)) 
 		{
-            palavraExibida = Reg.palavra; // Palavra normal
-        } 
-		else 
-		{
-            palavraExibida = "ESPACO"; // ESPACO
-        }
-        gotoxy(5, i);printf("|    %3d    | %-11s |     %3d    | %-14s |\n",
-               Reg.simbolo,
-               palavraExibida,
-               Reg.frequencia,
-               Reg.codHuff);
-        i++;
-    }
+	        if (Reg.palavra[0] != 32) 
+			{
+	            palavraExibida = Reg.palavra; // Palavra normal
+	        } 
+			else 
+			{
+	            palavraExibida = "ESPACO"; // ESPACO
+	        }
+	        gotoxy(5, i);printf("|    %3d    | %-11s |     %3d    | %-14s |\n",
+	               Reg.simbolo,
+	               palavraExibida,
+	               Reg.frequencia,
+	               Reg.codHuff);
+	        i++;
+    	}
+	}
     gotoxy(5, i);printf("---------------------------------------------------------\n");
 }
 
