@@ -182,8 +182,10 @@ int main()
 	textbackground(BLUE);
 	textcolor(YELLOW);
     i++; gotoxy(2, i);
-    printf("Arvore (Horizontal):\n\n");
-    exibirTreeHorizontal(Raiz);
+    // printf("Arvore (Horizontal):\n\n");
+    // exibirTreeHorizontal(Raiz);
+    gotoxy(55,8);printf("Arvore (Vertical):");
+	exibirTreeVertical(Raiz, 60, 10, 50);
     getch();
     /*-------------------------------------------------------------------------------------------------------------------*/
     

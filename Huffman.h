@@ -86,16 +86,15 @@ void exibirTreeHorizontal(Tree *raiz) {
 
 void exibirTreeVertical(Tree *raiz, int x, int y, int deslocamento) {
 	int novoXEsq, novoXDir, novoY;
-	if (raiz != NULL) {
-		// Posiciona o cursor e imprime o nó atual
+	if (raiz != NULL) 
+	{
+		// Posiciona o cursor
 		gotoxy(x, y);
-		// Verifica se o nó é folha ou interno
 		if (raiz->simbolo != -1) {
-			// Nó folha: exibe símbolo e frequência
-			printf("(%d,%d)", raiz->simbolo, raiz->frequencia);
-		} else {
-			// Nó interno: exibe uma indicação padrão e a frequência
-			printf("(*,%d)", raiz->frequencia);
+			printf("(%d,%d)", raiz->simbolo, raiz->frequencia);// Nó folha
+		} 
+		else {
+			printf("(#,%d)", raiz->frequencia);// Nó interno
 		}
 		// Calcula a posição dos filhos
 		novoXEsq = x - deslocamento;

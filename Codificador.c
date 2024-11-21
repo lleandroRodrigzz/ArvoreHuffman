@@ -286,29 +286,15 @@ int main()
 	textbackground(BLUE);
 	textcolor(YELLOW);
 	gotoxy(3,7);
-	printf("Arvore (Horizontal):\n\n");
-	exibirTreeHorizontal(Raiz);
-	getch();
-	/*-------------------------------------------------------------------------------------------------------------------*/
-	
-	/*------------------------------------------ TERCEIRA TELA ----------------------------------------------------------*/
-	system("cls");
-	Moldura(3,2,118,4,BLACK,BLUE); //Borda Titulo
-	textbackground(BLUE);
-	textcolor(YELLOW);
-	gotoxy(12,3); printf("#### ARVORE HUFFMAN - DESENVOLVIDO POR LEANDRO M. C. RODRIGUES - PROFESSOR FRANCISCO DE ASSIS ####");
-	Moldura(54,4,66,6,BLACK,BLUE); //Borda SubTitulo
-	textbackground(BLUE);
-	textcolor(YELLOW);
-	gotoxy(55,5); printf("C0MPACTAD0R");
-	textbackground(BLUE);
-	textcolor(YELLOW);
-	gotoxy(4,8);printf("Frase: %s", frase);
-	gotoxy(4,10);printf("Huffman:"); criaArqFraseBin(Reg, frase);
-	
-	
-	gotoxy(4,15);printf("Tabela de Registros foi Gravada em 'TabReg.dat' com sucesso...");
-	gotoxy(4,17);printf("Frase Codificada foi Gravada em 'Frase.dat' com sucesso...");
+	// printf("Arvore (Horizontal):\n\n");
+	// exibirTreeHorizontal(Raiz);
+	gotoxy(55,8);printf("Arvore (Vertical):");
+	exibirTreeVertical(Raiz, 60, 10, 50);
+
+	gotoxy(4,24);printf("Frase: %s", frase);
+	gotoxy(4,26);printf("Frase Huffman:"); criaArqFraseBin(Reg, frase);
+	gotoxy(4,29);printf("Tabela de Registros foi Gravada em 'TabReg.dat' com sucesso...");
+	gotoxy(4,31);printf("Frase Codificada foi Gravada em 'Frase.dat' com sucesso...");
 	/*-------------------------------------------------------------------------------------------------------------------*/
 	
 	limparTree(&Raiz);
