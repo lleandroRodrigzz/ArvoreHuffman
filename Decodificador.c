@@ -5,6 +5,10 @@
 #include <ctype.h>
 #include "Huffman.h"
 
+#define YELLOW 14
+#define BLUE 1
+#define BLACK 0
+
 /*--------------------- Tree ---------------------*/
 void construirSubTree(Tree* *Raiz, int simbolo, char *codHuff, int *i){
 	if(codHuff[*i] != '\0')

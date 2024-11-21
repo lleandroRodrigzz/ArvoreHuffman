@@ -1,5 +1,6 @@
 #include <conio.h>
 #include <conio2.h>
+
 #define TFC 50
 
 struct bits {

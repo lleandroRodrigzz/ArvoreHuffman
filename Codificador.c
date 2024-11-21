@@ -5,6 +5,10 @@
 #include <ctype.h>
 #include "Huffman.h"
 
+#define YELLOW 14
+#define BLUE 1
+#define BLACK 0
+
 /*--------------------- Frase --------------------*/
 void lerFrase(TabReg* *Reg, char *frase){
 	unsigned int i;
@@ -13,6 +17,8 @@ void lerFrase(TabReg* *Reg, char *frase){
 	char palavra[TFC];
 	for(i = 0; i < tamFrase; i++)
 	{
+
+		
 		for(pos = 0; i < tamFrase && frase[i] != 32; pos++, i++)
 		{
 			palavra[pos] = frase[i];
@@ -126,7 +132,7 @@ void criaArqFraseBin(TabReg *Reg, char *frase){
 			palavra[pos] = frase[i];
 		palavra[pos] = '\0';
 		aux = Reg;
-		while(aux != NULL && stricmp(palavra, aux->palavra) != 0)
+		while(aux != NULL && strcmp(palavra, aux->palavra) != 0)
 			aux = aux->prox;
 		
 		if(aux != NULL){
@@ -246,7 +252,7 @@ int main()
 	Moldura(54,4,66,6,BLACK,BLUE); //Borda SubTitulo
 	textbackground(BLUE);
 	textcolor(YELLOW);
-	gotoxy(55,5); printf("COMPACTADOR");
+	gotoxy(55,5); printf("C0MPACTAD0R");
 	
 	lerFrase(&Reg, frase);
 	ordenarRegistro(&Reg);
@@ -276,7 +282,7 @@ int main()
 	Moldura(54,4,66,6,BLACK,BLUE); //Borda SubTitulo
 	textbackground(BLUE);
 	textcolor(YELLOW);
-	gotoxy(55,5); printf("COMPACTADOR");
+	gotoxy(55,5); printf("C0MPACTAD0R");
 	textbackground(BLUE);
 	textcolor(YELLOW);
 	gotoxy(3,7);
@@ -294,7 +300,7 @@ int main()
 	Moldura(54,4,66,6,BLACK,BLUE); //Borda SubTitulo
 	textbackground(BLUE);
 	textcolor(YELLOW);
-	gotoxy(55,5); printf("COMPACTADOR");
+	gotoxy(55,5); printf("C0MPACTAD0R");
 	textbackground(BLUE);
 	textcolor(YELLOW);
 	gotoxy(4,8);printf("Frase: %s", frase);
